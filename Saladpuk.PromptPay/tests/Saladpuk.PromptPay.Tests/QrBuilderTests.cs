@@ -31,11 +31,6 @@ namespace Saladpuk.PromptPay.Tests
         [InlineData(008, "54048.00")]
         [InlineData(050.34633, "540550.35")]
         [InlineData(.654246, "54040.65")]
-        // TODO: Test cases
-        //ไม่มีตัวเลขหลังจุด ทำให้error และยังไม่ได้ข้อสรุปของคำตอบ
-        //[InlineData(0050., "540550.00")]
-        //[InlineData(-0020., "5540520.00")]
-
 
         public void AddTransactionAmount(double amount, string expected)
             => sut.SetTransactionAmount(amount).ToString().Should().BeEquivalentTo(expected);
@@ -55,19 +50,6 @@ namespace Saladpuk.PromptPay.Tests
         [InlineData(-008, "54048.00")]
         [InlineData(-050.34633, "540550.35")]
         [InlineData(-.654246, "54040.65")]
-        // TODO: Test cases
-        //ไม่มีตัวเลขหลังจุด ทำให้error และยังไม่ได้ข้อสรุปของคำตอบ
-        //[InlineData(-0020., "540520.00")]
-        // TODO: Test cases
-        //ไม่สามารถใส่จุดได้มากกว่า 2 และยังไม่ได้ข้อสรุปของคำตอบ
-        //[InlineData(-.., "54040.00")]
-        //[InlineData(-0.., "54040.00")]
-        // TODO: Test cases
-        //ไม่สามารถใส่ตัวอักษร อักขระได้ และยังไม่ได้ข้อสรุปของคำตอบ
-        //[InlineData(AA.BB, "54040.00")]
-        //[InlineData(-AA.BB, "54040.00")]
-        //[InlineData(AA, "54040.00")]
-        //[InlineData(-AA, "54040.00")]
 
         public void AddTransactionAmountWithNegativeValue(double amount, string expected)
             => sut.SetTransactionAmount(amount).ToString().Should().BeEquivalentTo(expected);
