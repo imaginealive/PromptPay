@@ -1,6 +1,9 @@
 ﻿using Saladpuk.PromptPay.Facades;
 using Saladpuk.PromptPay.Models;
 using Xunit;
+using System.Linq;
+using FluentAssertions;
+using Saladpuk.EMVCo.Models;
 
 namespace Saladpuk.PromptPay.Tests
 {
@@ -52,6 +55,17 @@ namespace Saladpuk.PromptPay.Tests
             actual.ValidateWith(expected);
         }
 
+
+        [Theory]
+        [InlineData("5802EN5802TH", new string[] { "5802EN", "5802TH" })]
+        public void TwoMoreSameIDQRMustBeReadable(string qrcode, string[] expected)
+        {
+            var expectedSegment = expected.Select(it => new QrDataObject(it));
+            var actual = sut.Read(qrcode);
+            actual.Segments.Should().BeEquivalentTo(expectedSegment);
+            actual.CountryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.Id == "58").Value);
+ 
+        }
         // TODO: Test cases
         // The length of the payload should not exceed 512 alphanumeric characters.
     }
