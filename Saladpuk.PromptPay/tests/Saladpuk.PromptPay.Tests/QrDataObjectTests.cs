@@ -25,11 +25,11 @@ namespace Saladpuk.PromptPay.Tests
         [InlineData("0000")]
         public void IncorrentQrDataObject(string rawValue)
         {
-            var result = false;
+            var convertible = false;
             try
             {
                 var sut = new QrDataObject(rawValue);
-                result = true;
+                convertible = true;
             }
             catch (System.Exception ex)
             {
@@ -37,7 +37,7 @@ namespace Saladpuk.PromptPay.Tests
             }
             finally
             {
-                result.Should().BeFalse();
+                convertible.Should().BeFalse();
             }
 
         }
