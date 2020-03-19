@@ -19,6 +19,28 @@ namespace Saladpuk.PromptPay.Tests
             sut.Value.Should().BeEquivalentTo(expectedValue);
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("0000")]
+        public void IncorrentQrDataObject(string rawValue)
+        {
+            var convertible = false;
+            try
+            {
+                var sut = new QrDataObject(rawValue);
+                convertible = true;
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+            finally
+            {
+                convertible.Should().BeFalse();
+            }
+
+        }
         // TODO: Test cases
         // Invalid Id.
         // Invalid length.
