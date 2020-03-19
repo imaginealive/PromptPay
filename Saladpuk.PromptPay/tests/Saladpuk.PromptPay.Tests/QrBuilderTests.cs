@@ -27,11 +27,48 @@ namespace Saladpuk.PromptPay.Tests
         [InlineData(201.005, "5406201.01")]
         [InlineData(202.0054, "5406202.01")]
         [InlineData(203.0055, "5406203.01")]
+        [InlineData(93, "540593.00")]
+        [InlineData(008, "54048.00")]
+        [InlineData(050.34633, "540550.35")]
+        [InlineData(.654246, "54040.65")]
+        // TODO: Test cases
+        //ไม่มีตัวเลขหลังจุด ทำให้error และยังไม่ได้ข้อสรุปของคำตอบ
+        //[InlineData(0050., "540550.00")]
+        //[InlineData(-0020., "5540520.00")]
+
+
         public void AddTransactionAmount(double amount, string expected)
             => sut.SetTransactionAmount(amount).ToString().Should().BeEquivalentTo(expected);
 
         [Theory]
         [InlineData(-50, "540550.00")]
+        [InlineData(-0, "54040.00")]
+        [InlineData(-004, "54044.00")]
+        [InlineData(-.007657, "54040.01")]
+        [InlineData(-50.00, "540550.00")]
+        [InlineData(-101.001, "5406101.00")]
+        [InlineData(-102.004, "5406102.00")]
+        [InlineData(-201.005, "5406201.01")]
+        [InlineData(-202.0054, "5406202.01")]
+        [InlineData(-203.0055, "5406203.01")]
+        [InlineData(-93, "540593.00")]
+        [InlineData(-008, "54048.00")]
+        [InlineData(-050.34633, "540550.35")]
+        [InlineData(-.654246, "54040.65")]
+        // TODO: Test cases
+        //ไม่มีตัวเลขหลังจุด ทำให้error และยังไม่ได้ข้อสรุปของคำตอบ
+        //[InlineData(-0020., "540520.00")]
+        // TODO: Test cases
+        //ไม่สามารถใส่จุดได้มากกว่า 2 และยังไม่ได้ข้อสรุปของคำตอบ
+        //[InlineData(-.., "54040.00")]
+        //[InlineData(-0.., "54040.00")]
+        // TODO: Test cases
+        //ไม่สามารถใส่ตัวอักษร อักขระได้ และยังไม่ได้ข้อสรุปของคำตอบ
+        //[InlineData(AA.BB, "54040.00")]
+        //[InlineData(-AA.BB, "54040.00")]
+        //[InlineData(AA, "54040.00")]
+        //[InlineData(-AA, "54040.00")]
+
         public void AddTransactionAmountWithNegativeValue(double amount, string expected)
             => sut.SetTransactionAmount(amount).ToString().Should().BeEquivalentTo(expected);
 
