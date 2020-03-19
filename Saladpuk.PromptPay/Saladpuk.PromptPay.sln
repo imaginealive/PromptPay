@@ -15,11 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saladpuk.PromptPay.Contract
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{4B2965D3-0F31-401B-804E-73DFE7E347E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiment.ConsoleApp.NetCore", "Apps\Experiment.ConsoleApp.NetCore\Experiment.ConsoleApp.NetCore.csproj", "{D0D901C2-D0D0-42C4-A860-659703B33A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Experiment.ConsoleApp.NetCore", "Apps\Experiment.ConsoleApp.NetCore\Experiment.ConsoleApp.NetCore.csproj", "{D0D901C2-D0D0-42C4-A860-659703B33A2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Experiment.ConsoleApp.NetFramework", "Apps\Experiment.ConsoleApp.NetFramework\Experiment.ConsoleApp.NetFramework.csproj", "{FC3443EC-BFD0-4F98-B105-FDD1AC174E0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saladpuk.EMVCo", "Saladpuk.EMVCo\Saladpuk.EMVCo.csproj", "{0ABE30C2-010F-4CD2-A7B9-526396B80A44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saladpuk.EMVCo", "Saladpuk.EMVCo\Saladpuk.EMVCo.csproj", "{0ABE30C2-010F-4CD2-A7B9-526396B80A44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saladpuk.EMVCo.Tests", "Saladpuk.EMVCo.Tests\Saladpuk.EMVCo.Tests.csproj", "{3629887C-B532-419B-A5CC-8524B9291DB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{0ABE30C2-010F-4CD2-A7B9-526396B80A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ABE30C2-010F-4CD2-A7B9-526396B80A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ABE30C2-010F-4CD2-A7B9-526396B80A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3629887C-B532-419B-A5CC-8524B9291DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3629887C-B532-419B-A5CC-8524B9291DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3629887C-B532-419B-A5CC-8524B9291DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3629887C-B532-419B-A5CC-8524B9291DB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{E0C96719-DA05-47CE-A725-9807049DF454} = {0C433077-08AF-4C77-959A-E99D9B986890}
 		{D0D901C2-D0D0-42C4-A860-659703B33A2E} = {4B2965D3-0F31-401B-804E-73DFE7E347E9}
 		{FC3443EC-BFD0-4F98-B105-FDD1AC174E0F} = {4B2965D3-0F31-401B-804E-73DFE7E347E9}
+		{3629887C-B532-419B-A5CC-8524B9291DB5} = {0C433077-08AF-4C77-959A-E99D9B986890}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {449B70FF-0C6F-4653-BE02-62BE29BA90E0}
