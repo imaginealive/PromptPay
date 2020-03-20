@@ -9,6 +9,7 @@ using System.Linq;
 using FluentAssertions;
 using Saladpuk.EMVCo.Models;
 using Saladpuk.EMVCo.Contracts;
+using System;
 
 namespace Saladpuk.PromptPay.Tests
 {
@@ -83,19 +84,8 @@ namespace Saladpuk.PromptPay.Tests
         [InlineData("000000")]
         public void ReadIncorrectFormatQrCode(string qrCode)
         {
-            var convertible = false;
-            try
-            {
-                var autual = sut.Read(qrCode);
-                convertible = true;
-            }
-            catch (System.Exception)
-            {
-            }
-            finally
-            {
-                convertible.Should().BeFalse();
-            }
+            Action testProcess = () => sut.Read(qrCode);
+            testProcess.Should().Throw<Exception>();
         }
 
         [Theory]

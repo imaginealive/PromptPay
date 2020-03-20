@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Saladpuk.EMVCo.Models;
 using Saladpuk.PromptPay.Models;
+using System;
 using Xunit;
 
 namespace Saladpuk.PromptPay.Tests
@@ -25,22 +26,10 @@ namespace Saladpuk.PromptPay.Tests
         [InlineData("0000")]
         public void IncorrentQrDataObject(string rawValue)
         {
-            var convertible = false;
-            try
-            {
-                var sut = new QrDataObject(rawValue);
-                convertible = true;
-            }
-            catch (System.Exception ex)
-            {
-
-            }
-            finally
-            {
-                convertible.Should().BeFalse();
-            }
-
+            Action testProcess = () => new QrDataObject(rawValue);
+            testProcess.Should().Throw<Exception>();
         }
+
         // TODO: Test cases
         // Invalid Id.
         // Invalid length.
