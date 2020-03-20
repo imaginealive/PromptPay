@@ -60,6 +60,12 @@ namespace Saladpuk.PromptPay.Tests
             actual.ValidateWith(expected);
         }
 
+        [Fact]
+        public void ReadEmpty() => sut.Read(string.Empty).Segments.Count().Should().Be(0);
+
+        [Fact]
+        public void ReadNull() => sut.Read(null).Segments.Count().Should().Be(0);
+
 
         [Theory]
         [InlineData("5802EN5802TH", new string[] { "5802EN", "5802TH" })]
@@ -69,8 +75,8 @@ namespace Saladpuk.PromptPay.Tests
             var actual = sut.Read(qrcode);
             actual.Segments.Should().BeEquivalentTo(expectedSegment);
             actual.CountryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.CountryCode).Value);
-        } 
-        
+        }
+
         [Theory]
         [InlineData("00020")]
         [InlineData("000A01")]

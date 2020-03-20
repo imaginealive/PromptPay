@@ -28,7 +28,8 @@ namespace Saladpuk.EMVCo
         /// <returns>รายละเอียดของ QR</returns>
         public IQrInfo Read(string code)
         {
-            ExtractText(code);
+            if (code != null)
+                ExtractText(code);
             return CreateQrInfo();
         }
 
@@ -44,7 +45,7 @@ namespace Saladpuk.EMVCo
             => new QrInfo(Segments);
         protected virtual void ExtractText(string text)
         {
-            if (text.Length < 5 && Segments.Count != 0) return;
+            if (text.Length < 5) return;
             var reader = new QrDataObject(text);
             var (targetSegment, other) = ExtractSegments(reader);
             Segments.Add(targetSegment);
