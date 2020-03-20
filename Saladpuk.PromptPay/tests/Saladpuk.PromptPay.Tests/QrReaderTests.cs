@@ -8,6 +8,7 @@ using Xunit;
 using System.Linq;
 using FluentAssertions;
 using Saladpuk.EMVCo.Models;
+using Saladpuk.EMVCo.Contracts;
 
 namespace Saladpuk.PromptPay.Tests
 {
@@ -67,7 +68,7 @@ namespace Saladpuk.PromptPay.Tests
             var expectedSegment = expected.Select(it => new QrDataObject(it));
             var actual = sut.Read(qrcode);
             actual.Segments.Should().BeEquivalentTo(expectedSegment);
-            actual.CountryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.Id == "58").Value);
+            actual.CountryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.CountryCode).Value);
         } 
         
         [Theory]
