@@ -67,7 +67,6 @@ namespace Saladpuk.PromptPay.Tests
         [Fact]
         public void ReadNull() => sut.Read(null).Segments.Count().Should().Be(0);
 
-
         [Theory]
         [InlineData("000200000201", "000200", "000201")]
         [InlineData("5802EN5802TH", "5802EN", "5802TH")]
@@ -79,71 +78,65 @@ namespace Saladpuk.PromptPay.Tests
             var expectedSegment = expected.Select(it => new QrDataObject(it));
             var actual = sut.Read(qrcode);
             actual.Segments.Should().BeEquivalentTo(expectedSegment);
-
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.PayloadFormatIndicator))
-            {
-                actual.PayloadFormatIndicator.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.PayloadFormatIndicator).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.PointOfInitiationMethod))
-            {
-                actual.PointOfInitiationMethod.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.PointOfInitiationMethod).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantCategoryCode))
-            {
-                actual.MerchantCategoryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantCategoryCode).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantCategoryCode))
-            {
-                actual.TransactionCurrency.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.TransactionCurrency).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.TransactionAmount))
-            {
-                actual.TransactionAmount.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.TransactionAmount).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.TipOrConvenienceIndicator))
-            {
-                actual.TipOrConvenienceIndicator.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.TipOrConvenienceIndicator).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeeFixed))
-            {
-                actual.ValueOfConvenienceFeeFixed.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeeFixed).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeePercentage))
-            {
-                actual.ValueOfConvenienceFeePercentage.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeePercentage).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.CountryCode))
-            {
-                actual.CountryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.CountryCode).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention ==QrIdentifier.MerchantName))
-            {
-                actual.MerchantName.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantName).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantCity))
-            {
-                actual.MerchantCity.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantCity).Value);
-            }
-            if (actual.Segments.Any(it =>it.IdByConvention==QrIdentifier.PostalCode))
-            {
-                actual.PostalCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.PostalCode).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.AdditionalData))
-            {
-                actual.AdditionalData.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.AdditionalData).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.CRC ))
-            {
-                actual.CRC.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.CRC).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantInformationLanguageTemplate))
-            {
-                actual.MerchantInformationLanguageTemplate.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantInformationLanguageTemplate).Value);
-            }
-            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.RFU))
-            {
-                actual.RFU.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.RFU).Value);
-            }
+            var expectedGroup = expectedSegment.GroupBy(it => it.IdByConvention);
+            expectedGroup.ToList().ForEach(it => {
+                switch (it.Key)
+                {
+                    case QrIdentifier.PayloadFormatIndicator:
+                        actual.PayloadFormatIndicator.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.PointOfInitiationMethod:
+                        actual.PointOfInitiationMethod.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.MerchantAccountInformation:
+                        actual.MerchantAccountInformation.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.MerchantCategoryCode:
+                        actual.MerchantCategoryCode.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.TransactionCurrency:
+                        actual.TransactionCurrency.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.TransactionAmount:
+                        actual.TransactionAmount.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.TipOrConvenienceIndicator:
+                        actual.TipOrConvenienceIndicator.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.ValueOfConvenienceFeeFixed:
+                        actual.ValueOfConvenienceFeeFixed.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.ValueOfConvenienceFeePercentage:
+                        actual.ValueOfConvenienceFeePercentage.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.CountryCode:
+                        actual.CountryCode.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.MerchantName:
+                        actual.MerchantName.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.MerchantCity:
+                        actual.MerchantCity.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.PostalCode:
+                        actual.PostalCode.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.AdditionalData:
+                        actual.AdditionalData.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.CRC:
+                        actual.CRC.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.MerchantInformationLanguageTemplate:
+                        actual.MerchantInformationLanguageTemplate.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.RFU:
+                        actual.RFU.Should().BeEquivalentTo(it.Last().Value);
+                        break;
+                    case QrIdentifier.UnreservedTemplates:
+                        break;
+                }
+            });
         }
 
         [Theory]
