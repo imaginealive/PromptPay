@@ -69,13 +69,81 @@ namespace Saladpuk.PromptPay.Tests
 
 
         [Theory]
-        [InlineData("5802EN5802TH", new string[] { "5802EN", "5802TH" })]
-        public void TwoMoreSameIDQRMustBeReadable(string qrcode, string[] expected)
+        [InlineData("000200000201", "000200", "000201")]
+        [InlineData("5802EN5802TH", "5802EN", "5802TH")]
+        [InlineData("0002015802EN53037645802TH", "000201", "5802EN", "5303764", "5802TH")]
+        [InlineData("540599.995405AA.AA", "540599.99", "5405AA.AA")]
+        [InlineData("0002005802DM5406123.450002015802TH540545.50", "000200", "5802DM", "5406123.45", "000201", "5802TH", "540545.50")]
+        public void TwoMoreSameIDQRMustBeReadable(string qrcode, params string[] expected)
         {
             var expectedSegment = expected.Select(it => new QrDataObject(it));
             var actual = sut.Read(qrcode);
             actual.Segments.Should().BeEquivalentTo(expectedSegment);
-            actual.CountryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.CountryCode).Value);
+
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.PayloadFormatIndicator))
+            {
+                actual.PayloadFormatIndicator.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.PayloadFormatIndicator).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.PointOfInitiationMethod))
+            {
+                actual.PointOfInitiationMethod.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.PointOfInitiationMethod).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantCategoryCode))
+            {
+                actual.MerchantCategoryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantCategoryCode).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantCategoryCode))
+            {
+                actual.TransactionCurrency.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.TransactionCurrency).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.TransactionAmount))
+            {
+                actual.TransactionAmount.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.TransactionAmount).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.TipOrConvenienceIndicator))
+            {
+                actual.TipOrConvenienceIndicator.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.TipOrConvenienceIndicator).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeeFixed))
+            {
+                actual.ValueOfConvenienceFeeFixed.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeeFixed).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeePercentage))
+            {
+                actual.ValueOfConvenienceFeePercentage.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.ValueOfConvenienceFeePercentage).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.CountryCode))
+            {
+                actual.CountryCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.CountryCode).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention ==QrIdentifier.MerchantName))
+            {
+                actual.MerchantName.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantName).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantCity))
+            {
+                actual.MerchantCity.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantCity).Value);
+            }
+            if (actual.Segments.Any(it =>it.IdByConvention==QrIdentifier.PostalCode))
+            {
+                actual.PostalCode.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.PostalCode).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.AdditionalData))
+            {
+                actual.AdditionalData.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.AdditionalData).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.CRC ))
+            {
+                actual.CRC.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.CRC).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.MerchantInformationLanguageTemplate))
+            {
+                actual.MerchantInformationLanguageTemplate.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.MerchantInformationLanguageTemplate).Value);
+            }
+            if (actual.Segments.Any(it => it.IdByConvention == QrIdentifier.RFU))
+            {
+                actual.RFU.Should().BeEquivalentTo(expectedSegment.Last(it => it.IdByConvention == QrIdentifier.RFU).Value);
+            }
         }
 
         [Theory]
