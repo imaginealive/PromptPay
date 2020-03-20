@@ -65,8 +65,4 @@ namespace Saladpuk.EMVCo.Tests
             }
         };
     }
-    public class QrInfo {
-        public QrIdentifier id { get; set; }
-        public string value { get; set; }
-    }
 }
